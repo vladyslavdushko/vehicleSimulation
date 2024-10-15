@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.translate-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inner-translate-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* .rotate-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inner-rotate-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.draw-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+} */

@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Debug/net8.0/wwwroot/_framework/blazor.webassembly.js",
+      "PackagePath": "staticwebassets/_framework/blazor.webassembly.js"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Debug/net8.0/compressed/yq1lh4doe3.gz",
+      "PackagePath": "staticwebassets/_framework/blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Debug/net8.0/scopedcss/bundle/VehicleSimulationApp.styles.css",
+      "PackagePath": "staticwebassets/VehicleSimulationApp.styles.css"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/wwwroot/css/app.css",
+      "PackagePath": "staticwebassets/css/app.css"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/wwwroot/css/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/wwwroot/js/canvasScripts.js",
+      "PackagePath": "staticwebassets/js/canvasScripts.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.VehicleSimulationApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.VehicleSimulationApp.props",
+      "PackagePath": "build\\VehicleSimulationApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.VehicleSimulationApp.props",
+      "PackagePath": "buildMultiTargeting\\VehicleSimulationApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.VehicleSimulationApp.props",
+      "PackagePath": "buildTransitive\\VehicleSimulationApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
