@@ -1029,3 +1029,5 @@
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Release/net8.0/refint/VehicleSimulationApp.dll
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Release/net8.0/VehicleSimulationApp.pdb
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Release/net8.0/ref/VehicleSimulationApp.dll
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Release/net8.0/publish/web.config
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Release/net8.0/publish/wwwroot/_framework/blazor.boot.json

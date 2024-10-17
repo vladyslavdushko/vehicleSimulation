@@ -1,0 +1,3 @@
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Release/net8.0/publish/publish/web.config
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Release/net8.0/publish/publish/wwwroot/_framework/blazor.boot.json
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Release/net8.0/publish/web.config
