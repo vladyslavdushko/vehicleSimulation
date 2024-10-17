@@ -1,114 +1,354 @@
+// window.machine1XTranslate = 0;
+// window.machine1YTranslate = 0;
+// window.machine2XTranslate = 0;
+// window.machine2YTranslate = 0;
+
+// let machine1RotationAngle = 0;
+// let machine2RotationAngle = 0;
+
+// let initialMachine1Points = [];
+// let initialMachine2Points = [];
+
+// window.drawMachines = (machine1Points, machine2Points) => {
+//   const canvas = document.getElementById("myCanvas");
+//   const ctx = canvas.getContext("2d");
+//   const canvasHeight = canvas.height;
+//   const canvasWidth = canvas.width;
+//   const yShift = -100;
+
+//   initialMachine1Points = machine1Points.map((point) => [
+//     parseFloat(point[0]),
+//     parseFloat(point[1]),
+//   ]);
+//   initialMachine2Points = machine2Points.map((point) => [
+//     parseFloat(point[0]),
+//     parseFloat(point[1]),
+//   ]);
+
+//   function getTransformedPoints(points, xTranslate, yTranslate, rotationAngle) {
+//     const transformedPoints = [];
+//     const angleRad = (rotationAngle * Math.PI) / 180;
+
+//     let sumX = 0;
+//     let sumY = 0;
+//     points.forEach((point) => {
+//       sumX += point[0];
+//       sumY += point[1];
+//     });
+//     const centerX = sumX / points.length;
+//     const centerY = canvasHeight - sumY / points.length;
+
+//     points.forEach((point) => {
+//       const x = point[0];
+//       const y = canvasHeight - point[1];
+
+//       const dx = x - centerX;
+//       const dy = y - centerY;
+
+//       const rotatedX = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+//       const rotatedY = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+
+//       const finalX = rotatedX + centerX + xTranslate;
+//       const finalY = rotatedY + centerY - yTranslate;
+
+//       transformedPoints.push([finalX, finalY]);
+//     });
+
+//     return transformedPoints;
+//   }
+
+//   function drawMachine(transformedPoints, color) {
+//     ctx.fillStyle = color;
+//     transformedPoints.forEach((point) => {
+//       ctx.beginPath();
+//       ctx.arc(point[0], point[1], 2, 0, 1 * Math.PI);
+//       ctx.fill();
+//     });
+//   }
+
+//   function drawAllMachines() {
+//     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+//     window.transformedMachine1Points = getTransformedPoints(
+//       initialMachine1Points,
+//       window.machine1XTranslate,
+//       window.machine1YTranslate,
+//       machine1RotationAngle
+//     );
+
+//     window.transformedMachine2Points = getTransformedPoints(
+//       initialMachine2Points,
+//       window.machine2XTranslate,
+//       window.machine2YTranslate,
+//       machine2RotationAngle
+//     );
+
+//     drawMachine(window.transformedMachine1Points, "red");
+//     drawMachine(window.transformedMachine2Points, "blue");
+//   }
+
+//   window.moveMachine = (machineId, xTranslate, yTranslate) => {
+//     if (machineId === 1) {
+//       window.machine1XTranslate = xTranslate;
+//       window.machine1YTranslate = yTranslate;
+//     } else if (machineId === 2) {
+//       window.machine2XTranslate = xTranslate;
+//       window.machine2YTranslate = yTranslate;
+//     }
+//     drawAllMachines();
+//   };
+
+//   window.rotateMachine = (machineId, rotationAngle) => {
+//     if (machineId === 1) {
+//       machine1RotationAngle = rotationAngle;
+//     } else if (machineId === 2) {
+//       machine2RotationAngle = rotationAngle;
+//     }
+//     drawAllMachines();
+//   };
+
+//   window.clearCanvas = () => {
+//     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+//     drawAllMachines();
+//   };
+
+//   window.drawLine = (startX, startY, endX, endY) => {
+//     ctx.beginPath();
+//     ctx.moveTo(startX, canvasHeight - startY);
+//     ctx.lineTo(endX, canvasHeight - endY);
+//     ctx.stroke();
+
+//     window.currentLine = {
+//       startX,
+//       startY,
+//       endX,
+//       endY,
+//     };
+//   };
+
+//   window.findIntersectionsBetweenMachines = () => {
+//     const startTime = performance.now();
+
+//     const machine1Points = window.transformedMachine1Points;
+//     const machine2Points = window.transformedMachine2Points;
+
+//     const matchingPairsCount = findMatchingPairsWithAllComparisons(
+//       machine1Points,
+//       machine2Points
+//     );
+
+//     const endTime = performance.now();
+//     const totalTime = endTime - startTime;
+
+//     console.log(`Перетини знайдено за ${totalTime.toFixed(2)} мс`);
+//     console.log(`Знайдено ${matchingPairsCount} перетинів між машинами.`);
+//   };
+
+//   window.findIntersectionsWithLine = (machineId) => {
+//     const startTime = performance.now();
+
+//     const machinePoints =
+//       machineId === 1
+//         ? window.transformedMachine1Points
+//         : window.transformedMachine2Points;
+
+//     const linePoints = getLinePoints(
+//       window.currentLine.startX,
+//       window.currentLine.startY,
+//       window.currentLine.endX,
+//       window.currentLine.endY
+//     );
+
+//     const matchingPairsCount = findMatchingPairsWithAllComparisons(
+//       machinePoints,
+//       linePoints
+//     );
+
+//     const endTime = performance.now();
+//     const totalTime = endTime - startTime;
+
+//     console.log(`Перетини з лінією знайдено за ${totalTime.toFixed(2)} мс`);
+//     console.log(
+//       `Знайдено ${matchingPairsCount} перетинів між машиною та лінією.`
+//     );
+//   };
+
+//   function getLinePoints(x1, y1, x2, y2) {
+//     const points = [];
+//     const canvasHeight = canvas.height;
+
+//     y1 = canvasHeight - y1;
+//     y2 = canvasHeight - y2;
+
+//     const dx = x2 - x1;
+//     const dy = y2 - y1;
+//     const steps = Math.max(Math.abs(dx), Math.abs(dy));
+
+//     const xIncrement = dx / steps;
+//     const yIncrement = dy / steps;
+
+//     let x = x1;
+//     let y = y1;
+
+//     for (let i = 0; i <= steps; i++) {
+//       points.push([x, y]);
+//       x += xIncrement;
+//       y += yIncrement;
+//     }
+//     console.log(points, "points");
+
+//     return points;
+//   }
+
+//   function findMatchingPairsWithAllComparisons(array1, array2) {
+//     let count = 0;
+//     const tolerance = 0.5;
+
+//     array1.forEach((pair1) => {
+//       array2.forEach((pair2) => {
+//         if (
+//           Math.abs(pair1[0] - pair2[0]) <= tolerance &&
+//           Math.abs(pair1[1] - pair2[1]) <= tolerance
+//         ) {
+//           count++;
+//         }
+//       });
+//     });
+
+//     return count;
+//   }
+
+//   drawAllMachines();
+// };
+
+// Ініціалізація глобальних змінних
 window.machine1XTranslate = 0;
 window.machine1YTranslate = 0;
 window.machine2XTranslate = 0;
 window.machine2YTranslate = 0;
 
-let initialMachine1Points = null;
-let initialMachine2Points = null;
-
 let machine1RotationAngle = 0;
 let machine2RotationAngle = 0;
 
-window.drawMachines = (machine1Points, machine2Points) => {
+let initialMachine1Points = [];
+let initialMachine2Points = [];
+
+window.drawMachines = (dotNetHelper, machine1Points, machine2Points) => {
   const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
-  const canvasWidth = canvas.width;
   const canvasHeight = canvas.height;
-
-  const spaceBetween = 500;
-  const marginX = (canvasWidth - spaceBetween) / 4 - 50;
+  const canvasWidth = canvas.width;
   const yShift = -100;
 
-  if (!initialMachine1Points) {
-    initialMachine1Points = machine1Points.map((point) => [...point]);
-  }
-  if (!initialMachine2Points) {
-    initialMachine2Points = machine2Points.map((point) => [...point]);
-  }
+  // Зберігаємо посилання на Blazor компонент
+  window.dotNetHelper = dotNetHelper;
 
-  function drawMachine(
-    points,
-    color,
-    offsetX,
-    xTranslate = 0,
-    yTranslate = 0,
-    rotationAngle = 0
-  ) {
-    ctx.fillStyle = color;
-    ctx.save();
+  // Зберігаємо початкові точки машин
+  initialMachine1Points = machine1Points.map((point) => [
+    parseFloat(point[0]),
+    parseFloat(point[1]),
+  ]);
+  initialMachine2Points = machine2Points.map((point) => [
+    parseFloat(point[0]),
+    parseFloat(point[1]),
+  ]);
 
-    const centerX = offsetX + xTranslate;
-    const centerY =
-      canvasHeight -
-      points[0][1] +
-      yTranslate +
-      (canvasHeight / 2 - 200 + yShift);
+  // Функція для обчислення трансформованих точок
+  function getTransformedPoints(points, xTranslate, yTranslate, rotationAngle) {
+    const transformedPoints = [];
+    const angleRad = (rotationAngle * Math.PI) / 180;
 
-    ctx.translate(centerX, centerY);
-    ctx.rotate((rotationAngle * Math.PI) / 180);
-    ctx.translate(-centerX, -centerY);
+    // Обчислюємо центр машини
+    let sumX = 0;
+    let sumY = 0;
+    points.forEach((point) => {
+      sumX += point[0];
+      sumY += point[1];
+    });
+    const centerX = sumX / points.length;
+    const centerY = canvasHeight - sumY / points.length;
 
     points.forEach((point) => {
-      ctx.beginPath();
-      const invertedY = canvasHeight - parseFloat(point[1]);
-      const centeredY = invertedY + (centerY - 200) + yTranslate + yShift;
-      ctx.arc(
-        parseFloat(point[0]) + offsetX + xTranslate,
-        centeredY,
-        2,
-        0,
-        2 * Math.PI
-      );
-      ctx.fill();
+      // Оригінальні координати точки в координатах канвасу
+      const x = point[0];
+      const y = canvasHeight - point[1];
+
+      // Переносимо точку до центру координат (відносно центру машини)
+      const dx = x - centerX;
+      const dy = y - centerY;
+
+      // Обертаємо точку
+      const rotatedX = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+      const rotatedY = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+
+      // Повертаємо точку до глобальної системи координат і застосовуємо зміщення
+      const finalX = rotatedX + centerX + xTranslate;
+      const finalY = rotatedY + centerY - yTranslate; // Віднімаємо yTranslate через особливості системи координат канвасу
+
+      transformedPoints.push([finalX, finalY]);
     });
 
-    ctx.restore();
+    return transformedPoints;
   }
 
+  // Функція для малювання машини
+  function drawMachine(transformedPoints, color) {
+    ctx.fillStyle = color;
+    transformedPoints.forEach((point) => {
+      ctx.beginPath();
+      ctx.arc(point[0], point[1], 2, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+  }
+
+  // Функція для оновлення та малювання всіх машин
   function drawAllMachines() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMachine(
-      machine1Points,
-      "red",
-      marginX,
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    // Трансформовані точки для машини 1
+    window.transformedMachine1Points = getTransformedPoints(
+      initialMachine1Points,
       window.machine1XTranslate,
       window.machine1YTranslate,
       machine1RotationAngle
     );
-    drawMachine(
-      machine2Points,
-      "blue",
-      canvasWidth - marginX - spaceBetween,
+
+    // Трансформовані точки для машини 2
+    window.transformedMachine2Points = getTransformedPoints(
+      initialMachine2Points,
       window.machine2XTranslate,
       window.machine2YTranslate,
       machine2RotationAngle
     );
+
+    // Малюємо машини
+    drawMachine(window.transformedMachine1Points, "red");
+    drawMachine(window.transformedMachine2Points, "blue");
   }
 
+  // Функції для зміщення та обертання машин
   window.moveMachine = (machineId, xTranslate, yTranslate) => {
     if (machineId === 1) {
-      window.machine1XTranslate += xTranslate;
-      window.machine1YTranslate -= yTranslate;
+      window.machine1XTranslate = xTranslate;
+      window.machine1YTranslate = yTranslate;
     } else if (machineId === 2) {
-      window.machine2XTranslate += xTranslate;
-      window.machine2YTranslate -= yTranslate;
+      window.machine2XTranslate = xTranslate;
+      window.machine2YTranslate = yTranslate;
     }
-
     drawAllMachines();
   };
 
-  window.rotateMachine1 = (rotationAngle) => {
-    machine1RotationAngle = rotationAngle;
-    drawAllMachines();
-  };
-
-  window.rotateMachine2 = (rotationAngle) => {
-    machine2RotationAngle = rotationAngle;
+  window.rotateMachine = (machineId, rotationAngle) => {
+    if (machineId === 1) {
+      machine1RotationAngle = rotationAngle;
+    } else if (machineId === 2) {
+      machine2RotationAngle = rotationAngle;
+    }
     drawAllMachines();
   };
 
   window.clearCanvas = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     drawAllMachines();
   };
 
@@ -117,7 +357,143 @@ window.drawMachines = (machine1Points, machine2Points) => {
     ctx.moveTo(startX, canvasHeight - startY);
     ctx.lineTo(endX, canvasHeight - endY);
     ctx.stroke();
+
+    // Зберігаємо точки лінії для подальшого використання
+    window.currentLine = {
+      startX,
+      startY,
+      endX,
+      endY,
+    };
   };
 
+  // Функція для пошуку перетинів між машинами
+  window.findIntersectionsBetweenMachines = (selectedMachine) => {
+    const startTime = performance.now();
+
+    // Вибираємо машини для порівняння
+    const machinePoints =
+      selectedMachine === 1
+        ? window.transformedMachine1Points
+        : window.transformedMachine2Points;
+    const otherMachinePoints =
+      selectedMachine === 1
+        ? window.transformedMachine2Points
+        : window.transformedMachine1Points;
+
+    const matchingPairsCount = findMatchingPairsWithAllComparisons(
+      machinePoints,
+      otherMachinePoints
+    );
+
+    const endTime = performance.now();
+    const totalTime = endTime - startTime;
+
+    const message = `Перетини знайдено за ${totalTime.toFixed(
+      2
+    )} мс. Знайдено ${matchingPairsCount} перетинів між Машиною ${selectedMachine} та іншою машиною.`;
+
+    // Викликаємо C# метод для оновлення повідомлення
+    window.dotNetHelper.invokeMethodAsync(
+      "UpdateMessage",
+      selectedMachine,
+      message
+    );
+  };
+
+  // Функція для пошуку перетинів з лінією
+  window.findIntersectionsWithLine = (selectedMachine) => {
+    if (!window.currentLine) {
+      const message = "Будь ласка, намалюйте лінію перед пошуком перетинів.";
+      window.dotNetHelper.invokeMethodAsync(
+        "UpdateMessage",
+        selectedMachine,
+        message
+      );
+      return;
+    }
+
+    const startTime = performance.now();
+
+    const machinePoints =
+      selectedMachine === 1
+        ? window.transformedMachine1Points
+        : window.transformedMachine2Points;
+
+    const linePoints = getLinePoints(
+      window.currentLine.startX,
+      window.currentLine.startY,
+      window.currentLine.endX,
+      window.currentLine.endY
+    );
+
+    const matchingPairsCount = findMatchingPairsWithAllComparisons(
+      machinePoints,
+      linePoints
+    );
+
+    const endTime = performance.now();
+    const totalTime = endTime - startTime;
+
+    const message = `Перетини з лінією знайдено за ${totalTime.toFixed(
+      2
+    )} мс. Знайдено ${matchingPairsCount} перетинів між Машиною ${selectedMachine} та лінією.`;
+
+    // Викликаємо C# метод для оновлення повідомлення
+    window.dotNetHelper.invokeMethodAsync(
+      "UpdateMessage",
+      selectedMachine,
+      message
+    );
+  };
+
+  // Функція для знаходження точок на лінії між двома точками
+  function getLinePoints(x1, y1, x2, y2) {
+    const points = [];
+    const canvasHeight = canvas.height;
+
+    // Перетворюємо координати Y для канвасу
+    y1 = canvasHeight - y1;
+    y2 = canvasHeight - y2;
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const steps = Math.max(Math.abs(dx), Math.abs(dy));
+
+    const xIncrement = dx / steps;
+    const yIncrement = dy / steps;
+
+    let x = x1;
+    let y = y1;
+
+    for (let i = 0; i <= steps; i++) {
+      points.push([x, y]);
+      x += xIncrement;
+      y += yIncrement;
+    }
+
+    return points;
+  }
+
+  // Функція для порівняння всіх пар точок між двома масивами
+  function findMatchingPairsWithAllComparisons(array1, array2) {
+    let count = 0;
+    const tolerance = 0.5; // Допустима похибка
+
+    array1.forEach((pair1) => {
+      array2.forEach((pair2) => {
+        if (
+          Math.abs(pair1[0] - pair2[0]) <= tolerance &&
+          Math.abs(pair1[1] - pair2[1]) <= tolerance
+        ) {
+          count++;
+        }
+      });
+    });
+
+    return count;
+  }
+
+  // Ініціалізуємо малювання
   drawAllMachines();
 };
