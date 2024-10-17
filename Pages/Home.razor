@@ -1,9 +1,7 @@
-﻿@* y
-
-@page "/"
+﻿@page "/"
 
 <div class="container">
-    <h3>Draw Machines</h3>
+    <h3 style="text-align: center;">Vechicle simulation app</h3>
     
     <InputFile OnChange="HandleFileSelected" />
     <button @onclick="DrawMachines">Намалювати</button>
@@ -29,191 +27,13 @@
 
     <div class="rotate-container">
         <div class="inner-rotate-container">
-            <label>Rotation for Machine 1:</label>
+            <label>Кут обертання для машини 1:</label>
             <input type="number" @bind="machine1Rotation" />
             <button @onclick="RotateMachine1">Обертати Машину 1</button>
         </div>
         
         <div class="inner-rotate-container">
-            <label>Rotation for Machine 2:</label>
-            <input type="number" @bind="machine2Rotation" />
-            <button @onclick="RotateMachine2">Обертати Машину 2</button>
-        </div>
-    </div>
-
-    <div class="draw-container">
-        <h4>Малювання Ліній</h4>
-        <label>Start X:</label>
-        <input type="number" @bind="startX" />
-        <label>Start Y:</label>
-        <input type="number" @bind="startY" />
-        <label>End X:</label>
-        <input type="number" @bind="endX" />
-        <label>End Y:</label>
-        <input type="number" @bind="endY" />
-        <button @onclick="DrawLine">Намалювати Лінію</button>
-    </div>
-
-    <div class="intersection-container">
-        <h4>Пошук Перетинів</h4>
-        <label>Виберіть машину для перевірки перетинів:</label>
-        <select @bind="selectedMachine">
-            <option value="1">Машина 1</option>
-            <option value="2">Машина 2</option>
-        </select>
-        <button @onclick="FindIntersectionsBetweenMachines">Знайти Перетини між Машинами</button>
-        <button @onclick="FindIntersectionsWithLine">Знайти Перетини з Лінією</button>
-    </div>
-
-    <button @onclick="ClearCanvas">Очистити Канвас</button>
-
-    <canvas id="myCanvas" width="2000" height="400" style="border:1px solid black;"></canvas>
-</div>
-
-@code {
-    [Inject]
-    private IJSRuntime JSRuntime { get; set; } = default!;
-
-    private double machine1XTranslate = 0;
-    private double machine1YTranslate = 0;
-    private double machine2XTranslate = 0;
-    private double machine2YTranslate = 0;
-
-    private double machine1Rotation = 0;
-    private double machine2Rotation = 0;
-
-    private double startX = 0;
-    private double startY = 0;
-    private double endX = 0;
-    private double endY = 0;
-
-    private List<string[]> machine1Points = new();
-    private List<string[]> machine2Points = new();
-
-    private int selectedMachine = 1; // Для вибору машини, яку перевіряти на перетин
-
-    private async Task HandleFileSelected(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        if (file != null)
-        {
-            var points = await ReadPointsFromFileAsync(file);
-            machine1Points = points;
-            machine2Points = points.Select(p => new string[] { (Convert.ToDouble(p[0]) + 400).ToString(), p[1] }).ToList();
-        }
-    }
-
-    private async Task<List<string[]>> ReadPointsFromFileAsync(IBrowserFile file)
-    {
-        var points = new List<string[]>();
-
-        using var stream = file.OpenReadStream();
-        using var reader = new StreamReader(stream);
-        string? line;
-        bool isFirstLine = true;
-        while ((line = await reader.ReadLineAsync()) != null)
-        {
-            if (isFirstLine)
-            {
-                isFirstLine = false;
-                continue;
-            }
-            var parts = line.Split('\t');
-            if (parts.Length == 2 && double.TryParse(parts[0], out _) && double.TryParse(parts[1], out _))
-            {
-                points.Add(parts);
-            }
-        }
-
-        return points;
-    }
-
-    private async Task DrawMachines()
-    {
-        await JSRuntime.InvokeVoidAsync("drawMachines", machine1Points, machine2Points);
-    }
-
-    private async Task RotateMachine1()
-    {
-        await JSRuntime.InvokeVoidAsync("rotateMachine", 1, machine1Rotation);
-    }
-
-    private async Task RotateMachine2()
-    {
-        await JSRuntime.InvokeVoidAsync("rotateMachine", 2, machine2Rotation);
-    }
-
-    private async Task DrawLine()
-    {
-        await JSRuntime.InvokeVoidAsync("drawLine", startX, startY, endX, endY);
-    }
-
-    private async Task ClearCanvas()
-    {
-        await JSRuntime.InvokeVoidAsync("clearCanvas");
-    }
-
-    private async Task UpdateMachine1Position()
-    {
-        await JSRuntime.InvokeVoidAsync("moveMachine", 1, machine1XTranslate, machine1YTranslate);
-    }
-
-    private async Task UpdateMachine2Position()
-    {
-        await JSRuntime.InvokeVoidAsync("moveMachine", 2, machine2XTranslate, machine2YTranslate);
-    }
-
-    private async Task FindIntersectionsBetweenMachines()
-    {
-        // Передаємо вибрану машину до JavaScript
-        await JSRuntime.InvokeVoidAsync("findIntersectionsBetweenMachines", selectedMachine);
-    }
-
-    private async Task FindIntersectionsWithLine()
-    {
-        await JSRuntime.InvokeVoidAsync("findIntersectionsWithLine", selectedMachine);
-    }
-} 
-
- *@
-
-
-@page "/"
-
-<div class="container">
-    <h3>Draw Machines</h3>
-    
-    <InputFile OnChange="HandleFileSelected" />
-    <button @onclick="DrawMachines">Намалювати</button>
-
-    <div class="translate-container">
-        <div class="inner-translate-container">
-            <h4>Зсуви для Машини 1</h4>
-            <label>X Translate:</label>
-            <input type="number" @bind="machine1XTranslate" />
-            <label>Y Translate:</label>
-            <input type="number" @bind="machine1YTranslate" />
-            <button @onclick="UpdateMachine1Position">Перемістити Машину 1</button>
-        </div>
-        <div class="inner-translate-container">
-            <h4>Зсуви для Машини 2</h4>
-            <label>X Translate:</label>
-            <input type="number" @bind="machine2XTranslate" />
-            <label>Y Translate:</label>
-            <input type="number" @bind="machine2YTranslate" />
-            <button @onclick="UpdateMachine2Position">Перемістити Машину 2</button>
-        </div>
-    </div>
-
-    <div class="rotate-container">
-        <div class="inner-rotate-container">
-            <label>Rotation for Machine 1:</label>
-            <input type="number" @bind="machine1Rotation" />
-            <button @onclick="RotateMachine1">Обертати Машину 1</button>
-        </div>
-        
-        <div class="inner-rotate-container">
-            <label>Rotation for Machine 2:</label>
+            <label>Кут обертання для машини 2:</label>
             <input type="number" @bind="machine2Rotation" />
             <button @onclick="RotateMachine2">Обертати Машину 2</button>
         </div>
@@ -247,7 +67,6 @@
 
     <canvas id="myCanvas" width="2000" height="400" style="border:1px solid black;"></canvas>
 
-    <!-- Текстові елементи для відображення повідомлень -->
     <div class="messages">
         <h4>Результати для Машини 1:</h4>
         <p>@Machine1Message</p>
@@ -278,13 +97,11 @@
     private List<string[]> machine1Points = new();
     private List<string[]> machine2Points = new();
 
-    private int selectedMachine = 1; // Для вибору машини, яку перевіряти на перетин
+    private int selectedMachine = 1; 
 
-    // Змінні для відображення повідомлень
     private string Machine1Message { get; set; } = "";
     private string Machine2Message { get; set; } = "";
 
-    // Створюємо посилання на поточний компонент для виклику з JavaScript
     private DotNetObjectReference<Pages.Home>? objRef;
 
     protected override void OnInitialized()
@@ -378,7 +195,6 @@
         await JSRuntime.InvokeVoidAsync("findIntersectionsWithLine", selectedMachine);
     }
 
-    // Метод, який буде викликаний з JavaScript для оновлення повідомлення
     [JSInvokable]
     public void UpdateMessage(int machineId, string message)
     {

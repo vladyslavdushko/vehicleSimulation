@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "VehicleSimulationApp",
   "resources": {
-    "hash": "sha256-Ahs1BMz9x6IdVLrkAYaZ7TROp2OZlbBb4w5GXpz1bCU=",
+    "hash": "sha256-MzuHlpXfwVA1ZdWUD4qPrDlGxmBE1UFHh2hY+W4cZhs=",
     "jsModuleNative": {
       "dotnet.native.8.0.10.3u45vwkrhz.js": "sha256-QVxMlY7ohmjgde/bZMA0dlWDAeuUP+tEfkiSdg4DFcE="
     },
@@ -208,10 +208,10 @@
       "mscorlib.wasm": "sha256-KvqZaNpjwhrOuzE4b4aMFsI+VUTyiWfoDI4zn4l9BM8=",
       "netstandard.wasm": "sha256-v+s7sWxtOM6bnOvC0jFrtnm6uMfbDymwl2nHNgbS2LM=",
       "System.Private.CoreLib.wasm": "sha256-pklll63uFQoY6vaD3vbluS9osYiJWLLLmob1yHFgepI=",
-      "VehicleSimulationApp.wasm": "sha256-QjN6pHw0OK5TQSWi+sW9E/R3sDK1wnpbHPYXzGyVcn0="
+      "VehicleSimulationApp.wasm": "sha256-hcbe5xcyWsRXnZgbwxbaak0pYFiudm0DmH5i+6/+PW8="
     },
     "pdb": {
-      "VehicleSimulationApp.pdb": "sha256-3e+fJ0oIH24oKUSZ0A1kiw3pFmJoRzZjVD8EqqZ5hoY="
+      "VehicleSimulationApp.pdb": "sha256-sQEOTLf4CwhVpdgfrIrBp8IHZcwPF4j4kYEYQ/bdYs0="
     }
   },
   "cacheBootResources": true,

@@ -1029,3 +1029,5 @@
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Debug/net8.0/ref/VehicleSimulationApp.dll
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Debug/net8.0/scopedcss/Pages/Home.razor.rz.scp.css
 /Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/obj/Debug/net8.0/VehicleSimulationApp.sourcelink.json
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Debug/net8.0/publish/web.config
+/Users/vladyslavdushko/Documents/Projects/dotnet/VehicleSimulationApp/bin/Debug/net8.0/publish/wwwroot/_framework/blazor.boot.json
