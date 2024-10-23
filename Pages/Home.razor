@@ -1,7 +1,8 @@
-﻿@page "/"
+﻿
+@page "/"
 
 <div class="container">
-    <h3 style="text-align: center;">Vechicle simulation app</h3>
+    <h3 style="text-align: center;">Vehicle Simulation App</h3>
     
     <InputFile OnChange="HandleFileSelected" />
     <button @onclick="DrawMachines">Намалювати</button>
@@ -27,13 +28,13 @@
 
     <div class="rotate-container">
         <div class="inner-rotate-container">
-            <label>Кут обертання для машини 1:</label>
+            <label>Кут обертання для Машини 1:</label>
             <input type="number" @bind="machine1Rotation" />
             <button @onclick="RotateMachine1">Обертати Машину 1</button>
         </div>
         
         <div class="inner-rotate-container">
-            <label>Кут обертання для машини 2:</label>
+            <label>Кут обертання для Машини 2:</label>
             <input type="number" @bind="machine2Rotation" />
             <button @onclick="RotateMachine2">Обертати Машину 2</button>
         </div>
@@ -59,13 +60,21 @@
             <option value="1">Машина 1</option>
             <option value="2">Машина 2</option>
         </select>
-        <button @onclick="FindIntersectionsBetweenMachines">Знайти Перетини між Машинами</button>
-        <button @onclick="FindIntersectionsWithLine">Знайти Перетини з Лінією</button>
+        <button @onclick="FindAllIntersections">Знайти Перетини</button>
+    </div>
+
+    <div class="mirror-container">
+        <h4>Відображення Машини 1 по X</h4>
+        <button @onclick="MirrorMachine1">Відобразити Машину 1 по X</button>
     </div>
 
     <button @onclick="ClearCanvas">Очистити Канвас</button>
 
-    <canvas id="myCanvas" width="2000" height="400" style="border:1px solid black;"></canvas>
+    <div style="position: relative; width: 2000px; height: 400px; border:1px solid black;">
+        <canvas id="linesCanvas" width="2000" height="400"></canvas>
+        <canvas id="machinesCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0;"></canvas>
+        <canvas id="intersectionsCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0;"></canvas>
+    </div>
 
     <div class="messages">
         <h4>Результати для Машини 1:</h4>
@@ -107,6 +116,14 @@
     protected override void OnInitialized()
     {
         objRef = DotNetObjectReference.Create(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("drawAllMachines");
+        }
     }
 
     public void Dispose()
@@ -185,14 +202,14 @@
         await JSRuntime.InvokeVoidAsync("moveMachine", 2, machine2XTranslate, machine2YTranslate);
     }
 
-    private async Task FindIntersectionsBetweenMachines()
+    private async Task FindAllIntersections()
     {
-        await JSRuntime.InvokeVoidAsync("findIntersectionsBetweenMachines", selectedMachine);
+        await JSRuntime.InvokeVoidAsync("findAllIntersections", selectedMachine);
     }
 
-    private async Task FindIntersectionsWithLine()
+    private async Task MirrorMachine1()
     {
-        await JSRuntime.InvokeVoidAsync("findIntersectionsWithLine", selectedMachine);
+        await JSRuntime.InvokeVoidAsync("mirrorMachine1");
     }
 
     [JSInvokable]
