@@ -279,11 +279,11 @@ window.findAllIntersections = (selectedMachine) => {
   }
 
   if (machineIntersectionPoints.length > 0) {
-    drawIntersectionPoints(machineIntersectionPoints, "purple");
+    drawIntersectionPoints(machineIntersectionPoints, "#FFF500");
   }
 
   if (lineIntersectionPoints.length > 0) {
-    drawIntersectionPoints(lineIntersectionPoints, "green");
+    drawIntersectionPoints(lineIntersectionPoints, "#00FF00");
   }
 };
 
