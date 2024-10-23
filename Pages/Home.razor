@@ -70,11 +70,12 @@
 
     <button @onclick="ClearCanvas">Очистити Канвас</button>
 
-    <div style="position: relative; width: 2000px; height: 400px; border:1px solid black;">
-        <canvas id="linesCanvas" width="2000" height="400"></canvas>
-        <canvas id="machinesCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0;"></canvas>
-        <canvas id="intersectionsCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0;"></canvas>
-    </div>
+<div style="position: relative; width: 800px; height: 160px; border:1px solid black;">
+    <canvas id="linesCanvas" width="2000" height="400" style="width: 800px; height: 160px;"></canvas>
+    <canvas id="machinesCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0; width: 800px; height: 160px;"></canvas>
+    <canvas id="intersectionsCanvas" width="2000" height="400" style="position: absolute; left: 0; top: 0; width: 800px; height: 160px;"></canvas>
+</div>
+
 
     <div class="messages">
         <h4>Результати для Машини 1:</h4>

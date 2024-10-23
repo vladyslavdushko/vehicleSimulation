@@ -13,11 +13,6 @@ window.lines = [];
 
 function getTransformedPoints(points, xTranslate, yTranslate, rotationAngle) {
   const canvas = document.getElementById("machinesCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'machinesCanvas' not found.");
-    return;
-  }
-  const ctx = canvas.getContext("2d");
   const transformedPoints = [];
   const angleRad = (rotationAngle * Math.PI) / 180;
 
@@ -54,10 +49,6 @@ function getTransformedPoints(points, xTranslate, yTranslate, rotationAngle) {
 
 function drawMachine(transformedPoints, color) {
   const canvas = document.getElementById("machinesCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'machinesCanvas' not found.");
-    return;
-  }
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = color;
   transformedPoints.forEach((point) => {
@@ -69,10 +60,6 @@ function drawMachine(transformedPoints, color) {
 
 function drawAllMachines() {
   const canvas = document.getElementById("machinesCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'machinesCanvas' not found.");
-    return;
-  }
   const ctx = canvas.getContext("2d");
   const canvasWidth = canvas.width;
   const canvasHeight = canvas.height;
@@ -154,10 +141,6 @@ window.clearCanvas = () => {
 
 window.drawLine = (startX, startY, endX, endY) => {
   const canvas = document.getElementById("linesCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'linesCanvas' not found.");
-    return;
-  }
   const ctx = canvas.getContext("2d");
   const canvasHeight = canvas.height;
 
@@ -200,9 +183,10 @@ function getLinePoints(x1, y1, x2, y2) {
   return points;
 }
 
-function findMatchingPairsWithAllComparisons(array1, array2) {
+function findMatchingPairsWithIntersections(array1, array2) {
   let count = 0;
   const tolerance = 0.5;
+  const intersectionPoints = [];
 
   array1.forEach((pair1) => {
     array2.forEach((pair2) => {
@@ -211,21 +195,19 @@ function findMatchingPairsWithAllComparisons(array1, array2) {
         Math.abs(pair1[1] - pair2[1]) <= tolerance
       ) {
         count++;
+        const intersectionX = (pair1[0] + pair2[0]) / 2;
+        const intersectionY = (pair1[1] + pair2[1]) / 2;
+        intersectionPoints.push([intersectionX, intersectionY]);
       }
     });
   });
 
-  return count;
+  return { count, intersectionPoints };
 }
 
 function drawIntersectionPoints(points, color) {
   const canvas = document.getElementById("intersectionsCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'intersectionsCanvas' not found.");
-    return;
-  }
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = color;
   points.forEach(([x, y]) => {
     ctx.beginPath();
@@ -237,8 +219,6 @@ function drawIntersectionPoints(points, color) {
 window.findAllIntersections = (selectedMachine) => {
   const startTime = performance.now();
 
-  const canvas = document.getElementById("machinesCanvas");
-
   const machinePoints =
     selectedMachine === 1
       ? window.transformedMachine1Points
@@ -249,13 +229,13 @@ window.findAllIntersections = (selectedMachine) => {
       ? window.transformedMachine2Points
       : window.transformedMachine1Points;
 
-  const machineIntersectionCount = findMatchingPairsWithAllComparisons(
-    machinePoints,
-    otherMachinePoints
-  );
+  const {
+    count: machineIntersectionCount,
+    intersectionPoints: machineIntersectionPoints,
+  } = findMatchingPairsWithIntersections(machinePoints, otherMachinePoints);
 
   let lineIntersectionCount = 0;
-  let intersectionPoints = [];
+  let lineIntersectionPoints = [];
 
   window.lines.forEach((line) => {
     const linePoints = getLinePoints(
@@ -264,22 +244,12 @@ window.findAllIntersections = (selectedMachine) => {
       line.endX,
       line.endY
     );
-    const count = findMatchingPairsWithAllComparisons(
+    const { count, intersectionPoints } = findMatchingPairsWithIntersections(
       machinePoints,
       linePoints
     );
     lineIntersectionCount += count;
-
-    linePoints.forEach((linePoint) => {
-      machinePoints.forEach((machinePoint) => {
-        if (
-          Math.abs(machinePoint[0] - linePoint[0]) <= 0.5 &&
-          Math.abs(machinePoint[1] - linePoint[1]) <= 0.5
-        ) {
-          intersectionPoints.push(linePoint);
-        }
-      });
-    });
+    lineIntersectionPoints = lineIntersectionPoints.concat(intersectionPoints);
   });
 
   const endTime = performance.now();
@@ -297,8 +267,23 @@ window.findAllIntersections = (selectedMachine) => {
     );
   }
 
-  if (intersectionPoints.length > 0) {
-    drawIntersectionPoints(intersectionPoints, "green");
+  const intersectionsCanvas = document.getElementById("intersectionsCanvas");
+  if (intersectionsCanvas) {
+    const intersectionsCtx = intersectionsCanvas.getContext("2d");
+    intersectionsCtx.clearRect(
+      0,
+      0,
+      intersectionsCanvas.width,
+      intersectionsCanvas.height
+    );
+  }
+
+  if (machineIntersectionPoints.length > 0) {
+    drawIntersectionPoints(machineIntersectionPoints, "purple");
+  }
+
+  if (lineIntersectionPoints.length > 0) {
+    drawIntersectionPoints(lineIntersectionPoints, "green");
   }
 };
 
@@ -320,12 +305,6 @@ window.drawMachines = (dotNetHelper, machine1Points, machine2Points) => {
 };
 
 window.mirrorMachine1 = () => {
-  const canvas = document.getElementById("machinesCanvas");
-  if (!canvas) {
-    console.error("Canvas with ID 'machinesCanvas' not found.");
-    return;
-  }
-
   const xValues = initialMachine1Points.map((p) => p[0]);
   const minX = Math.min(...xValues);
   const maxX = Math.max(...xValues);
