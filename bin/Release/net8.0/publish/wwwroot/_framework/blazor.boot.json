@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "VehicleSimulationApp",
   "resources": {
-    "hash": "sha256-1Am0p/hEl5t/+IofmlqWr+/0n8ab88JVF+abuljQU0c=",
+    "hash": "sha256-w2pUJRK6/uLbq+8g4Snlig+M8F79nYB94Bpb4xL4qCY=",
     "jsModuleNative": {
       "dotnet.native.8.0.10.3u45vwkrhz.js": "sha256-QVxMlY7ohmjgde/bZMA0dlWDAeuUP+tEfkiSdg4DFcE="
     },
@@ -46,7 +46,7 @@
       "System.Text.Encodings.Web.wasm": "sha256-hmEqWvCZQnS2F8DAjTdmesIMijXij07DuFxe0SVocRQ=",
       "System.Text.Json.wasm": "sha256-B+c4ikAwfzwKz9343e3hJI6xG2JYzHMwF0PWZl6DuoY=",
       "System.Text.RegularExpressions.wasm": "sha256-wEHv8zSPfibWXTDcOYr6yaWO1ZDflORcHqJKw38gnAk=",
-      "VehicleSimulationApp.wasm": "sha256-pYaVrSysGNogmeaZFIYL2+bGzNVv0vGNQWQee7KZwJs="
+      "VehicleSimulationApp.wasm": "sha256-4azdweOiJOC9LItcbXyrYnKQ+yIMBO2vrMhxZclt+pM="
     }
   },
   "cacheBootResources": true,
