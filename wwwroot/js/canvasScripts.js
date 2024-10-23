@@ -58,7 +58,7 @@ function drawMachine(transformedPoints, color) {
   });
 }
 
-function drawAllMachines() {
+window.drawAllMachines = () => {
   const canvas = document.getElementById("machinesCanvas");
   const ctx = canvas.getContext("2d");
   const canvasWidth = canvas.width;
@@ -93,7 +93,7 @@ function drawAllMachines() {
       intersectionsCanvas.height
     );
   }
-}
+};
 
 window.moveMachine = (machineId, xTranslate, yTranslate) => {
   if (machineId === 1) {
